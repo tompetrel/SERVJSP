@@ -7,18 +7,20 @@ package com.softechs.session03;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author TAI
  */
-public class InitParamServlet extends HttpServlet {
+@WebServlet(name = "SignInServlet", urlPatterns = {"/SignInServlet"})
+public class SignInServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,18 +39,22 @@ public class InitParamServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet InitParamServlet</title>");
+            out.println("<title>Servlet SignInServlet</title>");            
             out.println("</head>");
             out.println("<body>");
+
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
             
-            ServletConfig config = getServletConfig();
-            String color = config.getInitParameter("color");
-            out.println(String.format("<h1>color: %s</h1>", color));
-            
-            ServletContext context = getServletContext();
-            String comp = context.getInitParameter("company");
-            out.println(String.format("<h1>Company: %s</h1>", comp));
-            
+            if (username.equals("admin")&&password.equals("admin")) {
+                HttpSession hs = request.getSession();
+                hs.setAttribute("username", username);
+                RequestDispatcher rd = request.getRequestDispatcher("DashboardServlet");
+                rd.forward(request, response);
+            } else {
+                out.print("<h1>Invalid username or password</h1>");
+            }
+
             out.println("</body>");
             out.println("</html>");
         }

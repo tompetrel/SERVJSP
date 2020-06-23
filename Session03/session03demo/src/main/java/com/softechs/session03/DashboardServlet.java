@@ -7,18 +7,20 @@ package com.softechs.session03;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author TAI
  */
-public class InitParamServlet extends HttpServlet {
+@WebServlet(name = "DashboardServlet", urlPatterns = {"/DashboardServlet"})
+public class DashboardServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,24 +33,23 @@ public class InitParamServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession hs = request.getSession();
+        if (hs.getAttribute("username")==null) {
+            RequestDispatcher rd = request.getRequestDispatcher("Login.html");
+            rd.forward(request, response);
+            return;
+        }
+        
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet InitParamServlet</title>");
+            out.println("<title>Servlet DashboardServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            
-            ServletConfig config = getServletConfig();
-            String color = config.getInitParameter("color");
-            out.println(String.format("<h1>color: %s</h1>", color));
-            
-            ServletContext context = getServletContext();
-            String comp = context.getInitParameter("company");
-            out.println(String.format("<h1>Company: %s</h1>", comp));
-            
+            out.println("<h1>Dashboard</h1>");
             out.println("</body>");
             out.println("</html>");
         }
