@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.softechs.dbweb;
+package com.softechs.web.hibernate.servlets;
 
+import com.softechs.web.hibernate.controllers.StudentsEntityJpaController;
+import com.softechs.web.hibernate.entitise.StudentsEntity;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author TAI
  */
-@WebServlet(name = "RegisterStudentServlet", urlPatterns = {"/RegisterStudentServlet"})
-public class RegisterStudentServlet extends HttpServlet {
+@WebServlet(name = "InsertStudents", urlPatterns = {"/InsertStudents"})
+public class InsertStudents extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,40 +41,43 @@ public class RegisterStudentServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet RegisterStudentServlet</title>");
+            out.println("<title>Servlet InsertStudents</title>");
             out.println("</head>");
             out.println("<body>");
-            // Create a variable for the connection string.
-//            String connectionUrl = "jdbc:sqlserver://localhost;databaseName=DemoDB;user=sa;password=123456";
-//            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-//            try ( Connection con = DriverManager.getConnection(connectionUrl);  Statement stmt = con.createStatement();) {
-//                String SQL = "insert into students(username, name) values('tai','Huu Tai')";
-//                stmt.executeUpdate(SQL);
-//                out.println("Student inserted !");
-//
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            ex.printStackTrace();
-//        }
+            
+            String userName = request.getParameter("username");
+            String name = request.getParameter("name");
+            
+
+            StudentsEntity student = new StudentsEntity();
+            student.setUsername(userName);
+            student.setName(name);
+
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("com.softechs_web-hibernate_war_1.0-SNAPSHOTPU");
+            StudentsEntityJpaController controller = new StudentsEntityJpaController(emf);
+            controller.create(student);
+            out.println("<h1> Student saved </h1>");
+            out.println("<a href='InsertStudents.html'>Insert Another student</a>");
+            
             out.println("</body>");
             out.println("</html>");
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-}
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-/**
- * Handles the HTTP <code>GET</code> method.
- *
- * @param request servlet request
- * @param response servlet response
- * @throws ServletException if a servlet-specific error occurs
- * @throws IOException if an I/O error occurs
- */
-@Override
-protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -88,7 +91,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
      * @throws IOException if an I/O error occurs
      */
     @Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -99,7 +102,7 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
      * @return a String containing servlet description
      */
     @Override
-public String getServletInfo() {
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 
