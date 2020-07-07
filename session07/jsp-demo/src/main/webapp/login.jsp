@@ -4,7 +4,7 @@
     Author     : TAI
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8" session="true"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -24,7 +24,8 @@
                 String username = request.getParameter("username");
                 String password = request.getParameter("password");
                 if (username != null && username.equals("admin") && password != null && password.equals("admin")) {
-                    out.println("<h3>Login successfully</h3>");
+                    session.setAttribute("username", username);
+                    response.sendRedirect("dashboard.jsp");
                 } else {
                     out.println("<h3>Invalib username or password</h3>");
 
