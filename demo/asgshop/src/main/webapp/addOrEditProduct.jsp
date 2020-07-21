@@ -19,7 +19,7 @@
     <body>
         <h1>Add or Edit Product</h1>
         <hr>
-        <form method="post">
+        <form method="POST">
             Product ID : <input type="text" name="productId"><br><br>
             Name : <input type="text" name="name"><br><br>
             Quantity : <input type="number" name="quantity"><br><br>
@@ -31,14 +31,14 @@
         </form>
         <%
             if (request.getMethod().equals("POST")) {
-//                String id = request.getParameter("productId");
+                String id = request.getParameter("productId");
                 String name = request.getParameter("name");
                 String quantity = request.getParameter("quantity");
                 String price = request.getParameter("price");
                 String description = request.getParameter("description");
                 ProductEntity entity = new ProductEntity();
-//                entity.setProductId(Integer.parseInt(id));
-                entity.setName("name");
+                entity.setProductId(Integer.parseInt(id));
+                entity.setName(name);
                 entity.setQuantity(Integer.parseInt(quantity));
                 entity.setPrice(BigDecimal.valueOf(Double.parseDouble(price)));
                 entity.setDescription(description);
@@ -47,7 +47,9 @@
                 ProductEntityJpaController controller = new ProductEntityJpaController(emf);
                 controller.create(entity);
                 out.println("new product successfully");
+
             }
         %>
+
     </body>
 </html>
