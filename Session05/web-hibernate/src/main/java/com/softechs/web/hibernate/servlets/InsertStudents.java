@@ -44,10 +44,9 @@ public class InsertStudents extends HttpServlet {
             out.println("<title>Servlet InsertStudents</title>");
             out.println("</head>");
             out.println("<body>");
-            
+
             String userName = request.getParameter("username");
             String name = request.getParameter("name");
-            
 
             StudentsEntity student = new StudentsEntity();
             student.setUsername(userName);
@@ -58,7 +57,7 @@ public class InsertStudents extends HttpServlet {
             controller.create(student);
             out.println("<h1> Student saved </h1>");
             out.println("<a href='InsertStudents.html'>Insert Another student</a>");
-            
+
             out.println("</body>");
             out.println("</html>");
 

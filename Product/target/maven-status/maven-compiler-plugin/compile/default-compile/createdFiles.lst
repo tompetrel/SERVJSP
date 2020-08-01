@@ -1,0 +1,6 @@
+com\webapp\product\entities\ProductEntity_.class
+com\webapp\product\entities\ProductEntity.class
+com\webapp\product\controllers\exceptions\PreexistingEntityException.class
+com\webapp\product\controllers\exceptions\IllegalOrphanException.class
+com\webapp\product\controllers\exceptions\NonexistentEntityException.class
+com\webapp\product\controllers\ProductEntityJpaController.class

@@ -14,8 +14,8 @@
     <body>
         <h1>Calculator</h1>
         <form action="" method="post">
-            a: <input type="rext" name="num1"> <br><br>
-            b: <input type="rext" name="num2"> <br><br>
+            a: <input type="text" name="num1"> <br><br>
+            b: <input type="text" name="num2"> <br><br>
             <input type="submit" value="Add">
         </form>
         <%
